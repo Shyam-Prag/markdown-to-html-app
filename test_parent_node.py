@@ -38,6 +38,21 @@ class TestParentNode(unittest.TestCase):
         child_node = LeafNode("span", "child")
         parent_node = ParentNode("div", [child_node])
         self.assertEqual(parent_node.to_html(), "<div><child>span</child></div>")
+    
+    def test_headings(self):
+        node = ParentNode(
+            "h2",
+            [
+                LeafNode(tag="b", value="Bold text"),
+                LeafNode(tag=None, value="Normal text"),
+                LeafNode(tag="i", value="italic text"),
+                LeafNode(tag=None, value="Normal text"),
+            ],
+        )
+        self.assertEqual(
+            node.to_html(),
+            "<h2><b>Bold text</b>Normal text<i>italic text</i>Normal text</h2>",
+        )
 
 if __name__ == "__main__":
     unittest.main()
