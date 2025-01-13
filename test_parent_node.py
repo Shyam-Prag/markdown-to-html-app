@@ -22,7 +22,7 @@ class TestParentNode(unittest.TestCase):
         node = ParentNode(
             "p",
             [
-                LeafNode("b", "Bold text"),
+                LeafNode(tag="b", value="Bold text"),
                 ParentNode("div", [
                     LeafNode(tag="i", value="italic text"),
                     LeafNode(tag="i", value="Normal text inside div"),
@@ -31,7 +31,7 @@ class TestParentNode(unittest.TestCase):
         
         self.assertEqual(
             node.to_html(),
-            "<p><Bold text>b</Bold text><div><i>italic text</i><i>Normal text inside div</i></div></p>"
+            "<p><b>Bold text</b><div><i>italic text</i><i>Normal text inside div</i></div></p>"
         )
 
 if __name__ == "__main__":
