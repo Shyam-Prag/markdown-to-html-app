@@ -1,3 +1,5 @@
+from textnode import TextNode, TextType
+
 class HTMLNode:
     def __init__(self,tag=None, value=None, children=None, props=None):
         self.tag = tag
@@ -35,6 +37,20 @@ class LeafNode(HTMLNode):
         
         return f"<{self.tag}>{self.value}</{self.tag}>"
 
+    def text_node_to_html_node(text_node):
+        available_text_types = {
+            TextType.BOLD: 1,
+            TextType.TEXT:2,
+            TextType.ITALIC:3,
+            TextType.CODE:4,
+            TextType.LINK:5,
+            TextType.IMAGE:6
+        }
+        if text_node.text_type not in available_text_types:
+            raise ValueError("Text Type is not valid")
+        
+
+
     def __repr__(self):
         return f"LeafNode({self.tag}, {self.value}, {self.props})"
 
@@ -56,3 +72,4 @@ class ParentNode(HTMLNode):
 
     def __repr__(self):
         return f"ParentNode({self.tag}, children: {self.children}, {self.props})"
+
