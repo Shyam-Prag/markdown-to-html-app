@@ -1,6 +1,6 @@
 import unittest
 
-from ..htmlnode import HTMLNode 
+from htmlnode import HTMLNode 
 class TestHTMLNode(unittest.TestCase):
     
     def test_props_to_html(self):
@@ -30,7 +30,7 @@ class TestHTMLNode(unittest.TestCase):
 
         x = HTMLNode(tag="a", value="hello, world",children=None, props=prop)
         
-        self.assertEquals(
+        self.assertEqual(
                 x.__repr__(), 
                 f"HTMLNode(tag={x.tag}, value={x.value}, children={x.children}, props={x.props})"
             )
