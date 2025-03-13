@@ -1,7 +1,7 @@
 import unittest
 from inline_markdown import split_nodes_delimiter
 from textnode import TextNode, TextType
-from inline_markdown import extract_markdown_images, extract_markdown_links, split_nodes_image, split_nodes_link
+from inline_markdown import extract_markdown_images, extract_markdown_links, split_nodes_image, split_nodes_link, text_to_textnodes
 
 class TestInlineMarkdown(unittest.TestCase):
     def test_delim_bold(self):
@@ -134,6 +134,47 @@ class TestInlineSplit(unittest.TestCase):
             new_nodes,
         )
 
+class TestTextToNodes(unittest.TestCase):
+
+    def test_text_to_textnodes_simple_text(self):
+        # Test with just plain text
+        nodes = text_to_textnodes("This is just plain text")
+        assert len(nodes) == 1
+        assert nodes[0].text == "This is just plain text"
+        assert nodes[0].text_type == TextType.TEXT
+        assert nodes[0].url is None
+
+    def test_text_to_textnodes_bold(self):
+        # Test with bold text
+        nodes = text_to_textnodes("This has a **bold** word")
+        assert len(nodes) == 3
+        assert nodes[0].text == "This has a "
+        assert nodes[0].text_type == TextType.TEXT
+        assert nodes[1].text == "bold"
+        assert nodes[1].text_type == TextType.BOLD
+        assert nodes[2].text == " word"
+        assert nodes[2].text_type == TextType.TEXT
+
+    def test_text_to_textnodes_italic(self):
+        # Test with italic text
+        nodes = text_to_textnodes("This has an _italic_ word")
+        assert len(nodes) == 3
+        assert nodes[0].text == "This has an "
+        assert nodes[0].text_type == TextType.TEXT
+        assert nodes[1].text == "italic"
+        assert nodes[1].text_type == TextType.ITALIC
+        assert nodes[2].text == " word"
+        assert nodes[2].text_type == TextType.TEXT
+
+    def test_text_to_textnodes_code(self):
+        # Test with code text
+        nodes = text_to_textnodes("This has `code` in it")
+        assert len(nodes) == 3
+        assert nodes[0].text == "This has "
+        assert nodes[0].text_type == TextType.TEXT
+        assert nodes[1].text == "code"
+        assert nodes[1].text_type == TextType.CODE
+        assert nodes
 
 if __name__ == "__main__":
     unittest.main()
