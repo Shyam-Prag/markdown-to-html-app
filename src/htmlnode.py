@@ -32,7 +32,13 @@ class LeafNode(HTMLNode):
             raise ValueError("Invalid HTML: no value")
         if self.tag is None:
             return self.value
-        return f"<{self.tag}{self.props_to_html()}>{self.value}</{self.tag}>"
+        
+        props_html = self.props_to_html()
+        if props_html:
+            return f"<{self.tag} {props_html}>{self.value}</{self.tag}>"
+        else:
+            return f"<{self.tag}>{self.value}</{self.tag}>"
+
 
     def __repr__(self):
         if self.props is None:
@@ -49,10 +55,17 @@ class ParentNode(HTMLNode):
             raise ValueError("Invalid HTML: no tag")
         if self.children is None:
             raise ValueError("Invalid HTML: no children")
+        
         children_html = ""
         for child in self.children:
             children_html += child.to_html()
-        return f"<{self.tag}{self.props_to_html()}>{children_html}</{self.tag}>"
+        
+        props_html = self.props_to_html()
+        if props_html:
+            return f"<{self.tag} {props_html}>{children_html}</{self.tag}>"
+        else:
+            return f"<{self.tag}>{children_html}</{self.tag}>"
+
 
     def __repr__(self):
         return f"ParentNode({self.tag}, children: {self.children}, {self.props})"
