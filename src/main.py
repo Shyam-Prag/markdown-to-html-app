@@ -9,7 +9,7 @@ from gencontent import generate_pages_recursive
 dir_path_static = "./static"
 dir_path_content = "./content"
 template_path = "./template.html"
-dir_path_public = "./docs"
+dir_path_public = "../docs"
 default_basepath = "/"
 
 def main():
