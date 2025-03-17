@@ -3,7 +3,7 @@ import shutil
 import os 
 
 from copystatic import copy_files_recursive
-from gencontent import generate_page
+from gencontent import generate_pages_recursive
 
 dir_path_static = "./static"
 dir_path_public = "./public"
@@ -16,25 +16,14 @@ def main():
     if os.path.exists(dir_path_public):
         shutil.rmtree(dir_path_public)
 
-    # STEP 2: COPY STATIC FILES]
+    # STEP 2: COPY STATIC FILES
     print("copying files...")
     copy_files_recursive(dir_path_static, dir_path_public)
     print("successfully copied files...")
     
     # STEP3: GENERATE PAGES
     print("Generating pages...")
-    for root, dirs, files in os.walk("content"):
-        for file in files:
-            if file.endswith(".md"):
-                from_path = os.path.join(root, file)
-
-                # Replace 'content' with 'public' in the path to make the destination
-                dest_path = from_path.replace("content", "public").replace(".md", ".html")
-
-                # Use a shared template
-                template_path = "template.html"
-
-                # Generate the page
-                generate_page(from_path, template_path, dest_path)
+    # Simply call generate_pages_recursive with the content directory
+    generate_pages_recursive(dir_path_content, template_path, dir_path_public)
 
 main()
